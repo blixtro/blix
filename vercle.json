@@ -1,6 +1,0 @@
-{
-  "numberOfLogLines": 100,
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/api/index" }
-  ]
-}
