@@ -222,16 +222,20 @@ app.get('/webhook', (req, res) => {
     const token = req.query['hub.verify_token'];
     const challenge = req.query['hub.challenge'];
 
+    // هنجيب التوكن من البيئة المحيطة بالسيرفر (Vercel Env)
+    const verifyToken = process.env.FACEBOOK_VERIFY_TOKEN || 'blixtro@2026';
+
     console.log('📥 mode:', mode);
     console.log('📥 token:', token);
     console.log('📥 challenge:', challenge);
 
-    if (mode === 'subscribe' && token === FACEBOOK_VERIFY_TOKEN) {
+    if (mode === 'subscribe' && token === verifyToken) {
         console.log('✅ تم التحقق بنجاح!');
-        res.status(200).send(challenge);
+        // Vercel بيحب الـ send المباشر مع الـ challenge كـ text
+        return res.status(200).send(challenge);
     } else {
         console.log('❌ فشل التحقق - Token غير متطابق');
-        res.status(403).send('Verification failed');
+        return res.status(403).send('Verification failed');
     }
 });
 
